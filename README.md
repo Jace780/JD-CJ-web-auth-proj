@@ -1,13 +1,17 @@
 # Coding I - Encryption and Authentication Project
 
-**Due date:** 3/6
+**Due date:** 4/10
 
 When you finish, add your names and a demo video link here, then submit one link to your project repository.
 
 **Group Members:** (list all group members here)
 * [Demo Video (1 per group)](http://includeyourlinkhere)
 
+<<<<<<< HEAD
 In this project, you will design and build a **login system web application** in Python using Flask. This project is broken into four major phases, each of which will teach a critical part of building a secure application. 
+=======
+In this project, you will design and build a web application with a basic **login system** in Python using Flask. This project is broken into four major phases, each of which will teach a critical part of building a secure application. You will use GitHub to collaborate with your group and track your progress.  
+>>>>>>> 43afba7 (Fixed registration error (server locking))
 
 #### [Please Fork this Repo to begin](https://github.com/rlj0713/coding-1-game/fork)
 ---
@@ -48,23 +52,32 @@ In this project, you will design and build a **login system web application** in
 |----------|
 * Implement password validation rules:
   - At least 1 uppercase letter
-  - At least 1 lowercase letter
-  - At least 1 number
-  - At least 1 special character
-* Display a clear error message if the password does not meet the requirements.
-* Ensure that registration only succeeds if the password meets the rules.
-* Test the validation thoroughly with multiple password examples.
+    - At least 1 lowercase letter
+      - At least 1 number
+        - At least 1 special character
+        * Display a clear error message if the password does not meet the requirements.
+        * Ensure that registration only succeeds if the password meets the rules.
+        * Test the validation thoroughly with multiple password examples.
 
-| Phase V: Reflection + Demo Video (20 pts) |
-|----------|
-* Record a screen-share of another student testing your login system.
-* Show a screen-share of your code and explain how each phase was implemented.
-* Describe at least 3 portions of your code that you are most proud of.
-* Both group members should speak during the video.
+        | Phase V: Reflection + Demo Video (20 pts) |
+        |----------|
+        * Record a screen-share of another student testing your login system.
+        * Show a screen-share of your code and explain how each phase was implemented.
+        * Describe at least 3 portions of your code that you are most proud of.
+        * Both group members should speak during the video.
 
+<<<<<<< HEAD
 | Optional Bonus (+10 pts / each) |
 |----------|
 * Add a “secret page” that displays the user’s name after login.
 * Style the pages with CSS to improve the user interface.
 * Implement a “Reset Database” button for easy testing.
 * Add additional security features (e.g., session timeouts, email verification).
+=======
+        | Optional Bonus (+10 pts / each) |
+        |----------|
+        * Add a “secret page” that displays the user’s name after login.
+        * Style the pages with CSS to improve the user interface.
+        * Implement a “Reset Database” button for easy testing.
+        * Add additional security features (e.g., session timeouts, email verification).
+>>>>>>> 43afba7 (Fixed registration error (server locking))
