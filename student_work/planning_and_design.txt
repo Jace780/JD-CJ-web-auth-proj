@@ -9,16 +9,7 @@ pet incremental; game
 - What style or vibe do you want users to experience?
 user can pick cat or dog type
 user can pet pet. 
-User's pets are tracked.
-tracked pets are currency
-pet currency can be spent on upgrades
-upgrades: 
-more pet per pet
-auto pet
-prestige
-    upgrades cost more
-    pets give x1.2 pets
-
+User's pets are tracked and displayed in the corner.
 
 - What about your app will require a log-in structure?
 logging into account for unique pet experience
@@ -26,17 +17,17 @@ logging into account for unique pet experience
 2. CORE FUNCTIONALITY
 -------------------------
 - What are the essential features your app must have? 
-pet to pet, shop to buy upgrades, and menu choose animal, and login screen 
+a login screen, a menu choose an animal, a screen to pet the chosen animal, and a point counter
 - What optional features could make your app more interactive or personalized?
 collars for pets
-3. SECRET OR PERSONALIZED CONTENT
-upgrade can buy terminal to use secert codes to get secret things.
 
+3. SECRET OR PERSONALIZED CONTENT
 -------------------------
 - What content will users see after logging in? 
 screen to choose wanted animal if they havent logged in before. 
 - Will this content change depending on who is using the app (admin, user, special user?)
-depending on how they play, yes.
+We will either have a secret login or secret code to give admin features
+
 4. USER EXPERIENCE (UX) DESIGN
 -------------------------
 - How should your app look and feel?
@@ -49,11 +40,11 @@ mouse
 - What password and authentication rules will you enforce?  
 min: 7 characetcters, numbers, letters, special characetcters
 - How will you protect secret pages from unauthorized access?
-knomachi code
+konami code
 
 6. OPTIONAL CREATIVE ENHANCEMENTS
 -------------------------
 - What customization or fun features could users enjoy?
 collars for pets
 - Are there interactive elements, like games, quizzes, or badges, you could include?
-PETTING THE DARN PETS
+Petting the pets
