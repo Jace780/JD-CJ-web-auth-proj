@@ -2,6 +2,11 @@
 APP PLANNING & DESIGN
 =========================
 
+DPCS FOR LATER::::
+https://www.w3schools.com/html/html_computercode_elements.asp 
+
+
+
 1. PROJECT NAME & THEME
 -------------------------
 - What is your app called, and what type of app is it? 

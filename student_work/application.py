@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect, url_for, render_template_string, session
-
+import sqlite3
 app = Flask(__name__)
 app.secret_key = "supersecretkey"  # needed for sessions
 
@@ -102,11 +102,15 @@ register_page = base_style + """
 
 secret_page = base_style + """
 <div class="card">
-<h2>🎉 Secret Room</h2>
+<h5> Secret Room🐱</h5>
 <h3>Welcome, {{ username }}!</h3>
-<p>You got into the secret room!</p>
+<h1>🐶</h1>
+<a href= "/pet"><button>Pet</button></a>
+<p>Sam is samm</p>
+<img scr="https://www.w3schools.com/images/w3schools_green.jpg">
 <a href="/logout"><button>Logout</button></a>
 </div>
+
 """
 
 @app.route("/", methods=["GET", "POST"])
@@ -165,6 +169,11 @@ def secret():
 def logout():
     session.pop("user", None)
     return redirect(url_for("login"))
+
+@app.route("/pet/<pets>")
+def pet():
+    
+
 
 # ---------- RUN ----------
 app.run(host="0.0.0.0", port=5000)
