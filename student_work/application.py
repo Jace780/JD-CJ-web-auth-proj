@@ -1,5 +1,6 @@
 from flask import Flask, request, redirect, url_for, render_template_string, session
 import sqlite3
+import bcrypt
 app = Flask(__name__)
 app.secret_key = "supersecretkey"  # needed for sessions
 
@@ -127,7 +128,7 @@ def login():
         ).fetchone()
         conn.close()
 
-        if user:
+        if user and bcrypt.checkpw(password.encode("utf-8"), user["password"]):
             session["user"] = username
             return redirect(url_for("secret"))
         else:
@@ -145,8 +146,9 @@ def register():
         if not username or not password:
             error = "Fields cannot be empty"
         else:
+            conn = get_db()
             try:
-                conn = get_db()
+                hashed_pw = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
                 conn.execute(
                     "INSERT INTO users (username, password) VALUES (?, ?)",
                     (username, password)
@@ -156,6 +158,11 @@ def register():
                 return redirect(url_for("login"))
             except sqlite3.IntegrityError:
                 error = "Username already exists"
+            except Exception:
+                conn.rollback()
+                error = "Unexpected error during registration"
+            finally:
+                conn.close()
 
     return render_template_string(register_page, error=error)
 
@@ -170,8 +177,8 @@ def logout():
     session.pop("user", None)
     return redirect(url_for("login"))
 
-@app.route("/pet/<pets>")
-def pet():
+# @app.route("/pet/<pets>")
+# def pet():
     
 
 
