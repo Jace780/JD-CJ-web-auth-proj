@@ -106,9 +106,9 @@ secret_page = base_style + """
 <h5> Secret Room🐱</h5>
 <h3>Welcome, {{ username }}!</h3>
 <h1>🐶</h1>
-<a href= "/pet"><button>Pet</button></a>
+<a href="/pet"><button>Pet</button></a>
 <p>Sam is samm</p>
-<img scr="https://www.w3schools.com/images/w3schools_green.jpg">
+<img src="https://www.w3schools.com/images/w3schools_green.jpg">
 <a href="/logout"><button>Logout</button></a>
 </div>
 
@@ -128,7 +128,7 @@ def login():
         ).fetchone()
         conn.close()
 
-        if user and bcrypt.checkpw(password.encode("utf-8"), user["password"]):
+        if user and bcrypt.checkpw(password.encode("utf-8"), user["password"].encode("utf-8")):
             session["user"] = username
             return redirect(url_for("secret"))
         else:
@@ -148,10 +148,10 @@ def register():
         else:
             conn = get_db()
             try:
-                hashed_pw = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+                hashed_pw = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
                 conn.execute(
                     "INSERT INTO users (username, password) VALUES (?, ?)",
-                    (username, password)
+                    (username, hashed_pw)
                 )
                 conn.commit()
                 conn.close()
