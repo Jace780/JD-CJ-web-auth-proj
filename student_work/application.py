@@ -1,12 +1,19 @@
 from flask import Flask, request, redirect, url_for, render_template_string, session
 import sqlite3
 import bcrypt
-app = Flask(__name__)
-app.secret_key = "supersecretkey"  # needed for sessions
+import re
 
-users = {
-    "alice": "password123"
-}
+app = Flask(__name__)
+app.secret_key = "supersecretkey"
+
+# ---------- DATABASE SETUP ----------
+def is_valid_password(password):
+    if (re.search(r"[A-Z]", password) and   # uppercase
+        re.search(r"[a-z]", password) and   # lowercase
+        re.search(r"[0-9]", password) and   # number
+        re.search(r"[^A-Za-z0-9]", password)):  # special char
+        return True
+    return False
 
 def get_db():
     conn = sqlite3.connect("users.db")
@@ -25,6 +32,8 @@ def init_db():
     conn.close()
 
 init_db()
+
+# ---------- STYLE ----------
 base_style = """
 <style>
 body {
@@ -47,8 +56,6 @@ input {
     width: 90%;
     padding: 8px;
     margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
 }
 button {
     padding: 10px;
@@ -56,26 +63,14 @@ button {
     background: #4CAF50;
     color: white;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-button:hover {
-    background: #45a049;
-}
-a {
-    display: block;
-    margin-top: 10px;
-    color: #333;
-    text-decoration: none;
 }
 .error {
     color: red;
-    margin-top: 10px;
 }
 </style>
 """
 
-login_page = base_style + """
+login_page = f"""{base_style}
 <div class="card">
 <h2>Login</h2>
 <form method="POST">
@@ -84,11 +79,11 @@ login_page = base_style + """
   <button type="submit">Login</button>
 </form>
 <a href="/register">Create an account</a>
-<p class="error">{{ error }}</p>
+<p class="error">{{{{ error }}}}</p>
 </div>
 """
 
-register_page = base_style + """
+register_page = f"""{base_style}
 <div class="card">
 <h2>Register</h2>
 <form method="POST">
@@ -97,38 +92,36 @@ register_page = base_style + """
   <button type="submit">Sign Up</button>
 </form>
 <a href="/">Back to login</a>
-<p class="error">{{ error }}</p>
+<p class="error">{{{{ error }}}}</p>
 </div>
 """
 
-secret_page = base_style + """
+secret_page = f"""{base_style}
 <div class="card">
-<h5> Secret Room🐱</h5>
-<h3>Welcome, {{ username }}!</h3>
-<h1>🐶</h1>
-<a href="/pet"><button>Pet</button></a>
-<p>Sam is samm</p>
-<img src="https://www.w3schools.com/images/w3schools_green.jpg">
+<h2>🎉 Secret Room</h2>
+<h3>Welcome, {{{{ username }}}}!</h3>
+<p>You got into the secret room!</p>
 <a href="/logout"><button>Logout</button></a>
 </div>
-
 """
 
+# ---------- ROUTES ----------
 @app.route("/", methods=["GET", "POST"])
 def login():
     error = ""
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
+        username = request.form["username"].strip()
+        password = request.form["password"].strip()
 
         conn = get_db()
         user = conn.execute(
-            "SELECT * FROM users WHERE username=? AND password=?",
-            (username, password)
+            "SELECT * FROM users WHERE username=?",
+            (username,)
         ).fetchone()
         conn.close()
 
-        if user and bcrypt.checkpw(password.encode("utf-8"), user["password"].encode("utf-8")):
+        # user['password'] is bytes in SQLite; check with bcrypt
+        if user and bcrypt.checkpw(password.encode("utf-8"), user["password"]):
             session["user"] = username
             return redirect(url_for("secret"))
         else:
@@ -140,23 +133,28 @@ def login():
 def register():
     error = ""
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
+        username = request.form["username"].strip()
+        password = request.form["password"].strip()
 
         if not username or not password:
             error = "Fields cannot be empty"
+        elif not is_valid_password(password):
+            error = "Password must include uppercase, lowercase, number, and special character"
         else:
             conn = get_db()
             try:
-                hashed_pw = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+                # Hash password with bcrypt
+                hashed_pw = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+
                 conn.execute(
                     "INSERT INTO users (username, password) VALUES (?, ?)",
                     (username, hashed_pw)
                 )
                 conn.commit()
-                conn.close()
+
                 return redirect(url_for("login"))
             except sqlite3.IntegrityError:
+                conn.rollback()
                 error = "Username already exists"
             except Exception:
                 conn.rollback()
@@ -177,10 +175,5 @@ def logout():
     session.pop("user", None)
     return redirect(url_for("login"))
 
-# @app.route("/pet/<pets>")
-# def pet():
-    
-
-
 # ---------- RUN ----------
-app.run(host="0.0.0.0", port=5000)
+app.run(host="0.0.0.0", port=5011)
