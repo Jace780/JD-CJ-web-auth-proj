@@ -98,11 +98,12 @@ register_page = f"""{base_style}
 
 secret_page = f"""{base_style}
 <div class="card">
-<h2>🎉 Secret Room</h2>
+<h2> Pet Page!!</h2>
 <h3>Welcome, {{{{ username }}}}!</h3>
-<p>You got into the secret room!</p>
+<p>Visit your pet's today!</p>
 <a href="/logout"><button>Logout</button></a>
 </div>
+<>
 """
 
 # ---------- ROUTES ----------

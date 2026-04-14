@@ -53,3 +53,14 @@ konami code
 collars for pets
 - Are there interactive elements, like games, quizzes, or badges, you could include?
 Petting the pets
+
+
+requests:
+GET
+DOEN
+POST
+DONE
+request
+CHANGING PET COUNT
+DELETE
+DELETE CURRENT PET;PET COUNT
